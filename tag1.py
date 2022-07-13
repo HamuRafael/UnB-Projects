@@ -8,15 +8,31 @@ class Grafo:
 
     def mostra_lista(self):
         for i in range(self.vertices):
-            print(f'{i+1}:',end=' ')
+            lista_test = []
+            
             for j in self.grafo[i]:
-                print(f'{j}  ->', end='  ')
-            print('')            
-        
+                lista_test.append(j)  
+
+            lista_adjacencia.append(lista_test)
+        print(f'{lista_adjacencia}')
+def BronKerbosch_sem_pivoteamento(P, R=None, X=None):
+    P = set(P)
+    R = set() if R is None else R
+    X = set() if X is None else X
+    if not P and not X:
+        yield R
+    while P:
+        v = P.pop()
+        yield from BronKerbosch_sem_pivoteamento(
+            P.intersection(grafo[v]), R.union([v]), X.intersection(grafo[v]))
+        X.add(v)
+
+
 g = Grafo(62)
 graph_updated = []
-
-with open("soc-dolphins.mtx",'r') as arquivo: #le o arquivo ge grafos
+lista_adjacencia = []
+lista_test = []
+with open("soc-dolphins.mtx",'r') as arquivo: #le o arquivo de grafos
     grafos = []
     lines = arquivo.readlines()
   
@@ -33,3 +49,4 @@ graph_updated = [list(map(int, x)) for x in graph_updated]
 for i in graph_updated:
     g.adiciona_arestas(i[0],i[1])
 g.mostra_lista()
+
